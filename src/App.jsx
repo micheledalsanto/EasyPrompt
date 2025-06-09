@@ -10,7 +10,6 @@ import PromptPreview from "./components/PromptPreview";
 import { generatePrompt } from "./utils/generatePrompt";
 import { downloadPrompt } from "./utils/downloadPrompt";
 import { stepGuides } from "./utils/stepGuides";
-import Toast from "./components/Toast"; // <--- importa il nuovo componente
 
 function App() {
   const [step, setStep] = useState(0);
@@ -18,7 +17,6 @@ function App() {
   const [instruction, setInstruction] = useState("");
   const [tone, setTone] = useState("");
   const [constraints, setConstraints] = useState("");
-  const [toast, setToast] = useState(null); // <--- stato per toast
 
   const prompt = generatePrompt({
     role,
@@ -26,11 +24,6 @@ function App() {
     tone,
     constraints,
   });
-
-  const showToast = (message) => {
-    setToast(message);
-    setTimeout(() => setToast(null), 2500);
-  };
 
   const reset = () => {
     setStep(0);
@@ -40,6 +33,13 @@ function App() {
     setConstraints("");
   };
 
+  const renderGuide = (step) => (
+    <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
+      <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
+      <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+    </div>
+  );
+
   const getStepComponent = () => {
     switch (step) {
       case 0:
@@ -48,10 +48,7 @@ function App() {
       case 1:
         return [
           <StepRole role={role} setRole={setRole} onNext={() => setStep(2)} />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
+          renderGuide(step),
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -63,10 +60,7 @@ function App() {
             onBack={() => setStep(1)}
             onNext={() => setStep(3)}
           />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
+          renderGuide(step),
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -78,10 +72,7 @@ function App() {
             onBack={() => setStep(2)}
             onNext={() => setStep(4)}
           />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
+          renderGuide(step),
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -93,10 +84,7 @@ function App() {
             onBack={() => setStep(3)}
             onNext={() => setStep(5)}
           />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
+          renderGuide(step),
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -109,7 +97,7 @@ function App() {
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition"
                 onClick={() => {
                   navigator.clipboard.writeText(prompt);
-                  showToast("✅ Prompt copiato negli appunti!");
+                  alert("Prompt copiato negli appunti!");
                 }}
               >
                 📋 Copia Prompt
@@ -128,10 +116,7 @@ function App() {
               </button>
             </div>
           </div>,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
+          renderGuide(step),
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -141,12 +126,9 @@ function App() {
   };
 
   return (
-    <>
-      <Layout currentStep={step}>
-        {getStepComponent()}
-      </Layout>
-      {toast && <Toast message={toast} />}
-    </>
+    <Layout currentStep={step}>
+      {getStepComponent()}
+    </Layout>
   );
 }
 
