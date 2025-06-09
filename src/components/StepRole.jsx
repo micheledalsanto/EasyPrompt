@@ -64,7 +64,7 @@ const rolesBySector = {
   function StepRole({ role, setRole, onNext }) {
     return (
       <>
-        <label className="block text-sm font-medium mb-2">Ruolo AI</label>
+        <label className="block text-sm font-medium mb-2">Seleziona il ruolo AI (in inglese)</label>
         <select
           value={role}
           onChange={e => setRole(e.target.value)}
