@@ -1,5 +1,7 @@
-
 # EasyPrompt 🎯
+
+![License: CC BY-NC-ND 4.0](https://img.shields.io/badge/License-CC%20BY--NC--ND%204.0-lightgrey.svg)
+
 
 **EasyPrompt** è una web app interattiva per aiutare chiunque – anche i non esperti – a generare prompt efficaci e ottimizzati per AI come ChatGPT, Gemini o Claude.
 
