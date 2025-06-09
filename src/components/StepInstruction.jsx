@@ -3,18 +3,40 @@ import React, { useState } from "react";
 const techniques = {
   few: {
     label: "Few‑Shot",
-    guide: `In questa tecnica fornisci 1‑2 esempi completi. Es.:
-  
+    guide: `Fornisci 1‑2 esempi completi per mostrare all'AI cosa fare. Es.:
+    
 Input: “Qual è la capitale dell’Italia?”
-Output: “Roma”
-
-Poi scrivi l'istruzione desiderata con un esempio simile.`,
+Output: “Roma”`,
   },
   cot: {
     label: "Chain‑of‑Thought",
     guide: `Invita l’AI a ragionare passo‑passo. Es.:
 
-“Inizia pensando ad alta voce per spiegare come risolveresti il problema.”`,
+"Inizia pensando ad alta voce per spiegare il tuo ragionamento."`,
+  },
+  zero: {
+    label: "Zero‑Shot",
+    guide: `Fornisci solo l'istruzione, senza esempi. L’AI deduce il compito. Es.:
+
+"Riassumi questo testo in una frase."`,
+  },
+  reflexion: {
+    label: "Reflexion",
+    guide: `Chiedi all’AI di rivalutare o migliorare una risposta. Es.:
+
+"Rileggi la tua risposta e correggi eventuali errori."`,
+  },
+  reAct: {
+    label: "ReAct",
+    guide: `Combina ragionamento e azioni. Es.:
+
+"Pensa a quale informazione ti serve, simula un’azione, poi rifletti sul risultato."`,
+  },
+  multi: {
+    label: "Multi‑turn",
+    guide: `Scomponi un compito complesso in più fasi. Es.:
+
+"Per prima cosa spiega il contesto. Poi affronta ogni punto uno alla volta."`,
   },
 };
 
@@ -24,12 +46,12 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext }) {
   return (
     <>
       <label className="block text-sm font-medium mb-2">Tecnica di prompting</label>
-      <div className="flex gap-4 mb-4">
+      <div className="flex flex-wrap gap-2 mb-4">
         {Object.entries(techniques).map(([key, { label }]) => (
           <button
             key={key}
             onClick={() => setTech(key)}
-            className={`px-4 py-2 rounded-lg border transition ${
+            className={`px-4 py-2 rounded-lg border transition text-sm ${
               tech === key ? "bg-blue-600 text-white" : "bg-white"
             }`}
           >
@@ -54,7 +76,7 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext }) {
             onChange={(e) => setInstruction(e.target.value)}
             rows="5"
             className="w-full border rounded-lg p-2 mb-4"
-            placeholder="Es. Scrivi una spiegazione passo-passo su come si calcola l'area di un triangolo..."
+            placeholder="Es. Spiega passo-passo come si calcola l’area di un triangolo..."
           />
         </>
       )}
