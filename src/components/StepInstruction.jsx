@@ -1,83 +1,72 @@
 import React, { useState, useEffect } from "react";
-import { roleTechniques } from "../utils/roleTechniques"; // Assicurati che questo file esista
 
 const techniques = {
   few: {
     label: "Few‑Shot",
-    guide: `Fornisci 1‑2 esempi completi per mostrare all'AI cosa fare. Es.:
-    
-Input: “Qual è la capitale dell’Italia?”
-Output: “Roma”`,
-    placeholder: "Es. Scrivi una descrizione prodotto con un esempio Input/Output...",
+    guide: `Fornisci 1‑2 esempi completi per mostrare all'AI cosa fare. Es.:\n\nInput: “Qual è la capitale dell’Italia?”\nOutput: “Roma”`,
+    placeholder: "Es. Input: Qual è 2+2?\nOutput: 4",
   },
   cot: {
     label: "Chain‑of‑Thought",
-    guide: `Invita l’AI a ragionare passo‑passo. Es.:
-
-"Inizia pensando ad alta voce per spiegare il tuo ragionamento."`,
-    placeholder: "Es. Spiega passo-passo come si calcola l’area di un triangolo...",
+    guide: `Invita l’AI a ragionare passo‑passo. Es.:\n\n\"Inizia pensando ad alta voce per spiegare il tuo ragionamento.\"`,
+    placeholder: "Es. Spiega passo-passo come calcolare l'area di un cerchio...",
   },
   zero: {
     label: "Zero‑Shot",
-    guide: `Fornisci solo l'istruzione, senza esempi. L’AI deduce il compito. Es.:
-
-"Riassumi questo testo in una frase."`,
-    placeholder: "Es. Scrivi un titolo per questo articolo...",
+    guide: `Fornisci solo l'istruzione, senza esempi. Es.:\n\n\"Riassumi questo testo in una frase.\"`,
+    placeholder: "Es. Riassumi questo testo in una frase...",
   },
   reflexion: {
     label: "Reflexion",
-    guide: `Chiedi all’AI di rivalutare o migliorare una risposta. Es.:
-
-"Rileggi la tua risposta e correggi eventuali errori."`,
-    placeholder: "Es. Migliora la seguente risposta in base a questi criteri...",
+    guide: `Chiedi all’AI di rivalutare o migliorare una risposta. Es.:\n\n\"Rileggi la tua risposta e correggi eventuali errori.\"`,
+    placeholder: "Es. Rileggi la risposta e migliora la chiarezza",
   },
-  react: {
+  reAct: {
     label: "ReAct",
-    guide: `Combina ragionamento e azioni. Es.:
-
-"Pensa a quale informazione ti serve, simula un’azione, poi rifletti sul risultato."`,
-    placeholder: "Es. Risolvi questo problema pensando e agendo passo-passo...",
+    guide: `Combina ragionamento e azioni. Es.:\n\n\"Pensa a quale informazione ti serve, simula un’azione, poi rifletti sul risultato.\"`,
+    placeholder: "Es. Trova il miglior volo, poi valuta il prezzo",
   },
   multi: {
     label: "Multi‑turn",
-    guide: `Scomponi un compito complesso in più fasi. Es.:
-
-"Per prima cosa spiega il contesto. Poi affronta ogni punto uno alla volta."`,
-    placeholder: "Es. Spiega i passaggi per creare un business plan...",
+    guide: `Scomponi un compito complesso in più fasi. Es.:\n\n\"Per prima cosa spiega il contesto. Poi affronta ogni punto uno alla volta.\"`,
+    placeholder: "Es. Spiega il contesto di un evento, poi analizza ogni aspetto",
   },
 };
 
-function StepInstruction({ role, instruction, setInstruction, onBack, onNext }) {
+function StepInstruction({ instruction, setInstruction, onBack, onNext, suggestedTechnique }) {
   const [tech, setTech] = useState(null);
-  const [suggested, setSuggested] = useState(null);
 
   useEffect(() => {
-    if (role && roleTechniques[role]) {
-      setSuggested(roleTechniques[role]);
+    if (suggestedTechnique) {
+      setTech(suggestedTechnique);
     }
-  }, [role]);
+  }, [suggestedTechnique]);
 
   return (
     <>
       <label className="block text-sm font-medium mb-2">Tecnica di prompting</label>
-      <div className="flex flex-wrap gap-2 mb-2">
+      <div className="flex flex-wrap gap-2 mb-4">
         {Object.entries(techniques).map(([key, { label }]) => (
           <button
             key={key}
             onClick={() => setTech(key)}
-            className={`px-4 py-2 rounded-lg border transition text-sm ${
+            className={`px-4 py-2 rounded-lg border transition text-sm relative ${
               tech === key ? "bg-blue-600 text-white" : "bg-white"
             }`}
           >
             {label}
+            {suggestedTechnique === key && (
+              <span className="absolute -top-2 -right-2 bg-yellow-400 text-xs px-2 py-0.5 rounded-full">
+                ⭐
+              </span>
+            )}
           </button>
         ))}
       </div>
 
-      {suggested && !tech && (
-        <p className="text-sm text-gray-500 mb-4">
-          ✅ Tecnica suggerita per <strong>{role}</strong>:{" "}
-          <strong>{techniques[suggested]?.label}</strong>
+      {suggestedTechnique && (
+        <p className="text-xs text-gray-500 mb-2">
+          ⭐ Tecnica consigliata per il ruolo selezionato
         </p>
       )}
 

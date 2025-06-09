@@ -10,6 +10,7 @@ import PromptPreview from "./components/PromptPreview";
 import { generatePrompt } from "./utils/generatePrompt";
 import { downloadPrompt } from "./utils/downloadPrompt";
 import { stepGuides } from "./utils/stepGuides";
+import { roleTechniques } from "./utils/roleTechniques";
 
 function App() {
   const [step, setStep] = useState(0);
@@ -17,6 +18,7 @@ function App() {
   const [instruction, setInstruction] = useState("");
   const [tone, setTone] = useState("");
   const [constraints, setConstraints] = useState("");
+  const [suggestedTechnique, setSuggestedTechnique] = useState(null);
 
   const prompt = generatePrompt({
     role,
@@ -31,14 +33,8 @@ function App() {
     setInstruction("");
     setTone("");
     setConstraints("");
+    setSuggestedTechnique(null);
   };
-
-  const renderGuide = (step) => (
-    <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-      <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-      <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
-    </div>
-  );
 
   const getStepComponent = () => {
     switch (step) {
@@ -47,8 +43,22 @@ function App() {
 
       case 1:
         return [
-          <StepRole role={role} setRole={setRole} onNext={() => setStep(2)} />,
-          renderGuide(step),
+          <StepRole
+            role={role}
+            setRole={(value) => {
+              setRole(value);
+              if (roleTechniques[value]) {
+                setSuggestedTechnique(roleTechniques[value]);
+              } else {
+                setSuggestedTechnique(null);
+              }
+            }}
+            onNext={() => setStep(2)}
+          />,
+          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          </div>,
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -59,8 +69,12 @@ function App() {
             setInstruction={setInstruction}
             onBack={() => setStep(1)}
             onNext={() => setStep(3)}
+            suggestedTechnique={suggestedTechnique}
           />,
-          renderGuide(step),
+          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          </div>,
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -72,7 +86,10 @@ function App() {
             onBack={() => setStep(2)}
             onNext={() => setStep(4)}
           />,
-          renderGuide(step),
+          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          </div>,
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -84,7 +101,10 @@ function App() {
             onBack={() => setStep(3)}
             onNext={() => setStep(5)}
           />,
-          renderGuide(step),
+          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          </div>,
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -97,7 +117,6 @@ function App() {
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition"
                 onClick={() => {
                   navigator.clipboard.writeText(prompt);
-                  alert("Prompt copiato negli appunti!");
                 }}
               >
                 📋 Copia Prompt
@@ -116,7 +135,10 @@ function App() {
               </button>
             </div>
           </div>,
-          renderGuide(step),
+          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          </div>,
           <PromptPreview prompt={prompt} />,
         ];
 
@@ -125,11 +147,7 @@ function App() {
     }
   };
 
-  return (
-    <Layout currentStep={step}>
-      {getStepComponent()}
-    </Layout>
-  );
+  return <Layout currentStep={step}>{getStepComponent()}</Layout>;
 }
 
 export default App;
