@@ -119,10 +119,9 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext, suggeste
           {/* Tecniche */}
           <label className="block text-sm font-medium mt-4 mb-2">
             {language === "it"
-              ? "Seleziona una tecnica per farti spiegare come scrivere l’istruzione"
-              : "Select a technique to get help writing the instruction"}
+              ? "Seleziona una tecnica per farti spiegare come scrivere l’istruzione (⭐ consigliata per il tuo ruolo)"
+              : "Select a technique to get help writing the instruction (⭐ suggested for your role)"}
           </label>
-
           <div className="flex flex-wrap gap-2 mb-2">
             {Object.entries(techniques).map(([key, { label }]) => (
               <button
