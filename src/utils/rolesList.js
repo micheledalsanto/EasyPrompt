@@ -1,7 +1,12 @@
-// utils/rolesList.js
+import en from "../i18n/en";
+import it from "../i18n/it";
 
-export const rolesBySector = {
-    "Marketing & Comunicazione": [
+const labels = { en, it };
+
+export function getRolesBySector(lang = "en") {
+  const t = labels[lang] || en; // fallback su inglese se lang non è supportata
+  return {
+    [t.sectorMarketing]: [
       "Copywriter",
       "Content Strategist",
       "Social Media Manager",
@@ -11,7 +16,7 @@ export const rolesBySector = {
       "Media Planner",
       "Email Marketing Specialist",
     ],
-    "Design & Creatività": [
+    [t.sectorDesign]: [
       "UX Designer",
       "UI Designer",
       "Graphic Designer",
@@ -19,21 +24,21 @@ export const rolesBySector = {
       "Art Director",
       "Product Designer",
     ],
-    "Educazione & Formazione": [
+    [t.sectorEducation]: [
       "Teacher",
       "Instructional Designer",
       "Academic Researcher",
       "Educational Technologist",
       "Tutor",
     ],
-    "Analisi & Dati": [
+    [t.sectorData]: [
       "Data Analyst",
       "Data Scientist",
       "Business Intelligence Analyst",
       "Research Analyst",
       "Statistician",
     ],
-    "Sviluppo & Tecnologia": [
+    [t.sectorTech]: [
       "Frontend Developer",
       "Backend Developer",
       "Fullstack Developer",
@@ -41,28 +46,28 @@ export const rolesBySector = {
       "AI Engineer",
       "QA Tester",
     ],
-    "Business & Strategia": [
+    [t.sectorBusiness]: [
       "Project Manager",
       "Product Manager",
       "Business Analyst",
       "Strategic Consultant",
       "Operations Manager",
     ],
-    "Vendite & Customer": [
+    [t.sectorSales]: [
       "Sales Representative",
       "Customer Support Agent",
       "Account Manager",
       "CRM Specialist",
       "Inside Sales Manager",
     ],
-    "HR & Risorse Umane": [
+    [t.sectorHR]: [
       "HR Generalist",
       "Recruiter",
       "Talent Acquisition Specialist",
       "Learning & Development Manager",
-    ]
+    ],
   };
-  
-  // Ruolo flat unico per autocompletamento
-  export const allRoles = Object.values(rolesBySector).flat().sort();
-  
+}
+
+// Ruoli usati globalmente (in inglese per consistenza interna)
+export const allRoles = Object.values(getRolesBySector("en")).flat().sort();

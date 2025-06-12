@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Layout from "./components/Layout";
 import StepWelcome from "./components/StepWelcome";
 import StepIndicator from "./components/StepIndicator";
@@ -9,9 +9,10 @@ import StepConstraints from "./components/StepConstraints";
 import PromptPreview from "./components/PromptPreview";
 import { generatePrompt } from "./utils/generatePrompt";
 import { downloadPrompt } from "./utils/downloadPrompt";
-import { stepGuides } from "./utils/stepGuides";
+import stepGuides from "./utils/stepGuides";
 import { roleTechniques } from "./utils/roleTechniques";
 import { suggestionsByRole } from "./utils/suggestionsByRole";
+import { LanguageContext } from "./i18n/LanguageContext";
 
 function App() {
   const [step, setStep] = useState(0);
@@ -21,12 +22,14 @@ function App() {
   const [constraints, setConstraints] = useState("");
   const [suggestedTechnique, setSuggestedTechnique] = useState(null);
   const [darkMode, setDarkMode] = useState(false);
+  const { dictionary: t, language } = useContext(LanguageContext);
 
   const prompt = generatePrompt({
     role,
     instruction,
     tone,
     constraints,
+    t,
   });
 
   const reset = () => {
@@ -43,124 +46,116 @@ function App() {
   }, [darkMode]);
 
   const getStepComponent = () => {
+    const GuideBox = (
+      <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
+        <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">
+          🧭 {t.stepGuide.title}
+        </h2>
+        <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">
+          {stepGuides[language][step]}
+        </p>
+      </div>
+    );
+
     switch (step) {
       case 0:
-        return [<StepWelcome onStart={() => setStep(1)} />];
+        return [<StepWelcome onStart={() => setStep(1)} key="welcome" />];
 
       case 1:
         return [
           <StepRole
+            key="role"
             role={role}
             setRole={(value) => {
               setRole(value);
-              if (roleTechniques[value]) {
-                setSuggestedTechnique(roleTechniques[value]);
-              } else {
-                setSuggestedTechnique(null);
-              }
+              setSuggestedTechnique(roleTechniques[value] || null);
             }}
             onNext={() => setStep(2)}
           />,
-          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
-          <PromptPreview prompt={prompt} />,
+          GuideBox,
+          <PromptPreview key="preview" prompt={prompt} />,
         ];
 
       case 2:
         return [
           <StepInstruction
+            key="instruction"
             instruction={instruction}
             setInstruction={setInstruction}
             onBack={() => setStep(1)}
             onNext={() => setStep(3)}
             suggestedTechnique={suggestedTechnique}
             role={role}
-            roleSuggestion={suggestionsByRole[role]}
+            roleUseCase={suggestionsByRole[role]}
           />,
-          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
-          <PromptPreview prompt={prompt} />,
+          GuideBox,
+          <PromptPreview key="preview" prompt={prompt} />,
         ];
 
       case 3:
         return [
           <StepTone
+            key="tone"
             tone={tone}
             setTone={setTone}
             onBack={() => setStep(2)}
             onNext={() => setStep(4)}
           />,
-          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
-          <PromptPreview prompt={prompt} />,
+          GuideBox,
+          <PromptPreview key="preview" prompt={prompt} />,
         ];
 
       case 4:
         return [
           <StepConstraints
+            key="constraints"
             constraints={constraints}
             setConstraints={setConstraints}
             onBack={() => setStep(3)}
             onNext={() => setStep(5)}
           />,
-          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
-          <PromptPreview prompt={prompt} />,
+          GuideBox,
+          <PromptPreview key="preview" prompt={prompt} />,
         ];
 
       case 5:
         return [
-          <div className="text-center space-y-4">
-            <p className="text-lg font-semibold dark:text-white">🎯 Prompt completato!</p>
+          <div key="complete" className="text-center space-y-4">
+            <p className="text-lg font-semibold dark:text-white">
+              🎯 {t.complete.title}
+            </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
               <button
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition"
-                onClick={() => {
-                  navigator.clipboard.writeText(prompt);
-                }}
+                onClick={() => navigator.clipboard.writeText(prompt)}
               >
-                📋 Copia Prompt
+                📋 {t.complete.copy}
               </button>
               <button
                 className="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg transition"
                 onClick={() => downloadPrompt(prompt)}
               >
-                💾 Scarica Prompt
+                💾 {t.complete.download}
               </button>
               <button
                 className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-4 py-2 rounded-lg transition"
                 onClick={reset}
               >
-                🔁 Ricomincia
+                🔁 {t.complete.reset}
               </button>
             </div>
           </div>,
-          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
-          </div>,
-          <PromptPreview prompt={prompt} />,
+          GuideBox,
+          <PromptPreview key="preview" prompt={prompt} />,
         ];
 
       default:
-        return [<p>Step non riconosciuto</p>];
+        return [<p key="unknown">{t.error.unknownStep}</p>];
     }
   };
 
   return (
-    <Layout
-      currentStep={step}
-      darkMode={darkMode}
-      setDarkMode={setDarkMode}
-    >
+    <Layout currentStep={step} darkMode={darkMode} setDarkMode={setDarkMode}>
       {getStepComponent()}
     </Layout>
   );

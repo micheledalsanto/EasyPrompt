@@ -1,16 +1,16 @@
-export function generatePrompt({ role, instruction, tone, constraints }) {
-  let prompt = `Agisci nel ruolo di ${role}.`;
+export function generatePrompt({ role, instruction, tone, constraints, t }) {
+  let prompt = `${t.role} ${role}.`;
 
   if (instruction) {
-    prompt += ` Il compito è: ${instruction}.`;
+    prompt += ` ${t.task} ${instruction}.`;
   }
 
   if (tone) {
-    prompt += ` Usa un tono ${tone}.`;
+    prompt += ` ${t.toneUsed} ${tone}.`;
   }
 
   if (constraints) {
-    prompt += ` Segui queste indicazioni: ${constraints}.`;
+    prompt += ` ${t.constraints} ${constraints}.`;
   }
 
   return prompt.trim();
