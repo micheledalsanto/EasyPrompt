@@ -1,3 +1,43 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Background e testo base */
+body {
+  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-gray-100;
+}
+
+/* Input, select, textarea */
+input, select, textarea {
+  @apply bg-white text-gray-900 border-gray-300;
+  @apply dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600;
+}
+
+/* Bottoni */
+button {
+  @apply text-gray-900 dark:text-white;
+}
+
+button:hover {
+  @apply dark:bg-gray-700;
+}
+
+/* Link */
+a {
+  @apply text-blue-600 dark:text-blue-400;
+}
+
+/* Autocompletamento (ul suggerimenti) */
+ul.suggestions {
+  @apply bg-white text-black dark:bg-white dark:text-black border rounded-md mt-1 shadow-md z-10;
+}
+
+/* Bottone tecnica selezionata */
+button.selected-tech {
+  @apply bg-blue-600 text-white;
+}
+
+/* Tasto "indietro" */
+button.back-button {
+  @apply bg-transparent text-gray-700 dark:text-gray-300 hover:underline;
+}

@@ -8,27 +8,27 @@ const techniques = {
   },
   cot: {
     label: "Chain‑of‑Thought",
-    guide: `Invita l’AI a ragionare passo‑passo. Es.:\n\n\"Inizia pensando ad alta voce per spiegare il tuo ragionamento.\"`,
+    guide: `Invita l’AI a ragionare passo‑passo. Es.:\n\n"Inizia pensando ad alta voce per spiegare il tuo ragionamento."`,
     placeholder: "Es. Spiega passo-passo come calcolare l'area di un cerchio...",
   },
   zero: {
     label: "Zero‑Shot",
-    guide: `Fornisci solo l'istruzione, senza esempi. Es.:\n\n\"Riassumi questo testo in una frase.\"`,
+    guide: `Fornisci solo l'istruzione, senza esempi. Es.:\n\n"Riassumi questo testo in una frase."`,
     placeholder: "Es. Riassumi questo testo in una frase...",
   },
   reflexion: {
     label: "Reflexion",
-    guide: `Chiedi all’AI di rivalutare o migliorare una risposta. Es.:\n\n\"Rileggi la tua risposta e correggi eventuali errori.\"`,
+    guide: `Chiedi all’AI di rivalutare o migliorare una risposta. Es.:\n\n"Rileggi la tua risposta e correggi eventuali errori."`,
     placeholder: "Es. Rileggi la risposta e migliora la chiarezza",
   },
   reAct: {
     label: "ReAct",
-    guide: `Combina ragionamento e azioni. Es.:\n\n\"Pensa a quale informazione ti serve, simula un’azione, poi rifletti sul risultato.\"`,
+    guide: `Combina ragionamento e azioni. Es.:\n\n"Pensa a quale informazione ti serve, simula un’azione, poi rifletti sul risultato."`,
     placeholder: "Es. Trova il miglior volo, poi valuta il prezzo",
   },
   multi: {
     label: "Multi‑turn",
-    guide: `Scomponi un compito complesso in più fasi. Es.:\n\n\"Per prima cosa spiega il contesto. Poi affronta ogni punto uno alla volta.\"`,
+    guide: `Scomponi un compito complesso in più fasi. Es.:\n\n"Per prima cosa spiega il contesto. Poi affronta ogni punto uno alla volta."`,
     placeholder: "Es. Spiega il contesto di un evento, poi analizza ogni aspetto",
   },
 };
@@ -50,9 +50,12 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext, suggeste
           <button
             key={key}
             onClick={() => setTech(key)}
-            className={`px-4 py-2 rounded-lg border transition text-sm relative ${
-              tech === key ? "bg-blue-600 text-white" : "bg-white"
-            }`}
+            className={`px-4 py-2 rounded-lg border transition text-sm relative
+              ${
+                tech === key
+                  ? "bg-blue-600 text-white dark:bg-blue-500"
+                  : "bg-white dark:bg-gray-700 text-black dark:text-white"
+              }`}
           >
             {label}
             {suggestedTechnique === key && (
@@ -65,19 +68,19 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext, suggeste
       </div>
 
       {suggestedTechnique && (
-        <p className="text-xs text-gray-500 mb-2">
+        <p className="text-xs text-gray-500 dark:text-gray-300 mb-2">
           ⭐ Tecnica consigliata per il ruolo selezionato
         </p>
       )}
 
       {tech && (
-        <div className="mb-4 p-3 bg-gray-50 border rounded-lg text-sm text-gray-700 whitespace-pre-wrap">
+        <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 border rounded-lg text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap">
           {techniques[tech].guide}
         </div>
       )}
 
       {roleUseCase && (
-        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-900">
+        <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg text-sm text-yellow-900 dark:text-yellow-100">
           💡 <strong>Prompt di esempio per questo ruolo:</strong> {roleUseCase}
         </div>
       )}
@@ -91,20 +94,23 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext, suggeste
             value={instruction}
             onChange={(e) => setInstruction(e.target.value)}
             rows="5"
-            className="w-full border rounded-lg p-2 mb-4"
+            className="w-full border rounded-lg p-2 mb-4 dark:bg-gray-800 dark:text-white dark:border-gray-600"
             placeholder={techniques[tech].placeholder}
           />
         </>
       )}
 
       <div className="flex justify-between">
-        <button onClick={onBack} className="text-gray-700">
+        <button
+          onClick={onBack}
+          className="text-gray-700 dark:text-gray-300 hover:underline"
+        >
           ← Indietro
         </button>
         {tech && instruction.trim() && (
           <button
             onClick={onNext}
-            className="bg-blue-600 text-white px-4 py-2 rounded-lg transition"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
           >
             Avanti →
           </button>

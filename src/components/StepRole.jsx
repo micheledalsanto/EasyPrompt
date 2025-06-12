@@ -8,11 +8,12 @@ function StepRole({ role, setRole, onNext }) {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const matches = inputValue.length > 1
-      ? allRoles.filter((r) =>
-          r.toLowerCase().includes(inputValue.toLowerCase())
-        )
-      : [];
+    const matches =
+      inputValue.length > 1
+        ? allRoles.filter((r) =>
+            r.toLowerCase().includes(inputValue.toLowerCase())
+          )
+        : [];
     setFilteredRoles(matches);
   }, [inputValue]);
 
@@ -23,7 +24,8 @@ function StepRole({ role, setRole, onNext }) {
       }
     };
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSelect = (selectedRole) => {
@@ -34,7 +36,9 @@ function StepRole({ role, setRole, onNext }) {
 
   return (
     <>
-      <label className="block text-sm font-medium mb-2">Ruolo AI (scrivilo o selezionalo)</label>
+      <label className="block text-sm font-medium mb-2">
+        Ruolo AI (scrivilo o selezionalo)
+      </label>
 
       <div className="relative" ref={containerRef}>
         <input
@@ -46,12 +50,12 @@ function StepRole({ role, setRole, onNext }) {
             setShowSuggestions(true);
           }}
           placeholder="Es. Copywriter"
-          className="w-full border rounded-lg p-2 mb-1"
+          className="w-full border rounded-lg p-2 mb-1 dark:bg-gray-800 dark:text-white dark:border-gray-600"
           onFocus={() => setShowSuggestions(true)}
         />
 
         {showSuggestions && filteredRoles.length > 0 && (
-          <ul className="absolute z-10 bg-white border w-full mt-1 max-h-48 overflow-y-auto rounded-lg shadow-lg">
+          <ul className="suggestions absolute z-10 w-full max-h-48 overflow-y-auto rounded-lg shadow-lg">
             {filteredRoles.map((roleOption) => (
               <li
                 key={roleOption}
@@ -66,14 +70,14 @@ function StepRole({ role, setRole, onNext }) {
       </div>
 
       {inputValue && !allRoles.includes(inputValue) && (
-        <p className="text-sm text-yellow-600 italic mt-1">
+        <p className="text-sm text-yellow-600 dark:text-yellow-400 italic mt-1">
           ⚠️ Questo ruolo non è nella lista. Non verranno forniti suggerimenti automatici.
         </p>
       )}
 
       <button
         onClick={() => inputValue.trim() && onNext()}
-        className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
+        className="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition"
       >
         Avanti →
       </button>

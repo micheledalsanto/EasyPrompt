@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Layout from "./components/Layout";
 import StepWelcome from "./components/StepWelcome";
 import StepIndicator from "./components/StepIndicator";
@@ -20,6 +20,7 @@ function App() {
   const [tone, setTone] = useState("");
   const [constraints, setConstraints] = useState("");
   const [suggestedTechnique, setSuggestedTechnique] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
 
   const prompt = generatePrompt({
     role,
@@ -36,6 +37,10 @@ function App() {
     setConstraints("");
     setSuggestedTechnique(null);
   };
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", darkMode);
+  }, [darkMode]);
 
   const getStepComponent = () => {
     switch (step) {
@@ -56,9 +61,9 @@ function App() {
             }}
             onNext={() => setStep(2)}
           />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
           </div>,
           <PromptPreview prompt={prompt} />,
         ];
@@ -71,11 +76,12 @@ function App() {
             onBack={() => setStep(1)}
             onNext={() => setStep(3)}
             suggestedTechnique={suggestedTechnique}
-            roleUseCase={suggestionsByRole[role] || null}
+            role={role}
+            roleSuggestion={suggestionsByRole[role]}
           />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
           </div>,
           <PromptPreview prompt={prompt} />,
         ];
@@ -88,9 +94,9 @@ function App() {
             onBack={() => setStep(2)}
             onNext={() => setStep(4)}
           />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
           </div>,
           <PromptPreview prompt={prompt} />,
         ];
@@ -103,9 +109,9 @@ function App() {
             onBack={() => setStep(3)}
             onNext={() => setStep(5)}
           />,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
           </div>,
           <PromptPreview prompt={prompt} />,
         ];
@@ -113,7 +119,7 @@ function App() {
       case 5:
         return [
           <div className="text-center space-y-4">
-            <p className="text-lg font-semibold">🎯 Prompt completato!</p>
+            <p className="text-lg font-semibold dark:text-white">🎯 Prompt completato!</p>
             <div className="flex flex-col sm:flex-row justify-center gap-4 mt-4">
               <button
                 className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition"
@@ -137,9 +143,9 @@ function App() {
               </button>
             </div>
           </div>,
-          <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>
-            <p className="text-sm text-gray-700 whitespace-pre-wrap">{stepGuides[step]}</p>
+          <div className="bg-gray-100 dark:bg-gray-800 border rounded-xl p-4 shadow-sm">
+            <h2 className="text-lg font-semibold text-gray-800 dark:text-white mb-2">🧭 Guida allo Step</h2>
+            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap">{stepGuides[step]}</p>
           </div>,
           <PromptPreview prompt={prompt} />,
         ];
@@ -149,7 +155,15 @@ function App() {
     }
   };
 
-  return <Layout currentStep={step}>{getStepComponent()}</Layout>;
+  return (
+    <Layout
+      currentStep={step}
+      darkMode={darkMode}
+      setDarkMode={setDarkMode}
+    >
+      {getStepComponent()}
+    </Layout>
+  );
 }
 
 export default App;
