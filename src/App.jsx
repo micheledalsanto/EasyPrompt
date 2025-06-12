@@ -11,6 +11,7 @@ import { generatePrompt } from "./utils/generatePrompt";
 import { downloadPrompt } from "./utils/downloadPrompt";
 import { stepGuides } from "./utils/stepGuides";
 import { roleTechniques } from "./utils/roleTechniques";
+import { suggestionsByRole } from "./utils/suggestionsByRole";
 
 function App() {
   const [step, setStep] = useState(0);
@@ -70,6 +71,7 @@ function App() {
             onBack={() => setStep(1)}
             onNext={() => setStep(3)}
             suggestedTechnique={suggestedTechnique}
+            roleUseCase={suggestionsByRole[role] || null}
           />,
           <div className="bg-gray-100 border rounded-xl p-4 shadow-sm">
             <h2 className="text-lg font-semibold text-gray-800 mb-2">🧭 Guida allo Step</h2>

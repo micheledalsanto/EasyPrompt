@@ -1,15 +1,17 @@
-export function generatePrompt({ role, instruction, tone, constraints, technique }) {
-  let prompt = "";
+export function generatePrompt({ role, instruction, tone, constraints }) {
+  let prompt = `Agisci nel ruolo di ${role}.`;
 
-  if (role) prompt += `Agisci come ${role}. `;
-  if (technique) prompt += `Usa un approccio di tipo ${technique}. `;
   if (instruction) {
-    prompt += instruction.trim().endsWith(".")
-      ? instruction.trim() + " "
-      : instruction.trim() + ". ";
+    prompt += ` Il compito è: ${instruction}.`;
   }
-  if (tone) prompt += `Rispondi con tono ${tone.toLowerCase()}. `;
-  if (constraints) prompt += `Rispetta questi vincoli: ${constraints.trim()}. `;
+
+  if (tone) {
+    prompt += ` Usa un tono ${tone}.`;
+  }
+
+  if (constraints) {
+    prompt += ` Segui queste indicazioni: ${constraints}.`;
+  }
 
   return prompt.trim();
 }

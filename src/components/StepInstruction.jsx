@@ -33,7 +33,7 @@ const techniques = {
   },
 };
 
-function StepInstruction({ instruction, setInstruction, onBack, onNext, suggestedTechnique }) {
+function StepInstruction({ instruction, setInstruction, onBack, onNext, suggestedTechnique, roleUseCase }) {
   const [tech, setTech] = useState(null);
 
   useEffect(() => {
@@ -73,6 +73,12 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext, suggeste
       {tech && (
         <div className="mb-4 p-3 bg-gray-50 border rounded-lg text-sm text-gray-700 whitespace-pre-wrap">
           {techniques[tech].guide}
+        </div>
+      )}
+
+      {roleUseCase && (
+        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg text-sm text-yellow-900">
+          💡 <strong>Prompt di esempio per questo ruolo:</strong> {roleUseCase}
         </div>
       )}
 
