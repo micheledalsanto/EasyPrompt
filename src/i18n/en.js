@@ -26,15 +26,16 @@ const en = {
   roleNotFound: "This role is not in the list. No suggestions will be provided.",
 
   // Step: Instruction
-  promptTechnique: "Prompting technique",
+  instructionLabel: "Write your instruction for the AI here",
+  promptTechnique: "Select a technique to get help writing your instruction",
   techniqueSuggested: "Suggested technique for selected role",
-  instructionLabel: "Instruction (based on ",
   rolePromptExample: "Example prompt for this role:",
   selectTechnique: "Select the most suitable technique:",
   techniqueGuide: "Tip based on the selected role",
   useExample: "Use this example",
   instructionNote:
     "You can freely write your instruction. The structure suggested by the selected technique is just a helpful guide to make it more effective.",
+  tipsTitle: "💡 Tips",
 
   // Step: Tone
   tone: "Tone",

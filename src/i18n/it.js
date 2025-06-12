@@ -21,15 +21,16 @@ const it = {
   roleNotFound: "Questo ruolo non è nella lista. Non verranno forniti suggerimenti automatici.",
 
   // Step: Istruzione + Tecnica
-  promptTechnique: "Tecnica di prompting",
+  instructionLabel: "Inserisci qui la tua istruzione per l’AI",
+  promptTechnique: "Seleziona una tecnica per farti spiegare come scrivere l’istruzione",
   techniqueSuggested: "Tecnica consigliata per il ruolo selezionato",
-  instructionLabel: "Istruzione (basata su: ",
   rolePromptExample: "Prompt di esempio per questo ruolo:",
   selectTechnique: "Scegli la tecnica più adatta:",
   techniqueGuide: "Suggerimento basato sul ruolo selezionato",
   useExample: "Usa questo esempio",
   instructionNote:
     "Puoi scrivere liberamente la tua istruzione. La struttura proposta dalla tecnica selezionata è solo un aiuto per renderla più efficace.",
+  tipsTitle: "💡 Consigli",
 
   // Step: Tono
   tone: "Tono",
