@@ -89,25 +89,29 @@ function StepInstruction({ instruction, setInstruction, onBack, onNext, suggeste
       )}
 
       {tech && (
-        <div className="mb-4 p-3 bg-gray-50 dark:bg-gray-800 border rounded-lg text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap">
-          {techniques[tech][`guide_${language}`]}
+        <div className="mb-4 space-y-2">
+          <div className="p-3 bg-gray-50 dark:bg-gray-800 border rounded-lg text-sm text-gray-700 dark:text-gray-200 whitespace-pre-wrap">
+            {techniques[tech][`guide_${language}`]}
+          </div>
+          <p className="text-sm italic text-gray-600 dark:text-gray-400">
+            ✏️ {t.instructionNote}
+          </p>
         </div>
       )}
 
-{roleUseCase && (
-  <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg text-sm text-yellow-900 dark:text-yellow-100">
-    <div className="mb-2">
-      💡 <strong>{t.rolePromptExample}</strong> {roleUseCase}
-    </div>
-    <button
-      onClick={() => setInstruction(roleUseCase)}
-      className="text-xs px-3 py-1 rounded-lg bg-blue-100 dark:bg-blue-600 text-blue-800 dark:text-white border border-blue-300 dark:border-blue-500 hover:bg-blue-200 dark:hover:bg-blue-500 transition"
-    >
-      ✨ {t.useExample}
-    </button>
-  </div>
-)}
-
+      {roleUseCase && (
+        <div className="mb-4 p-3 bg-yellow-50 dark:bg-yellow-900 border border-yellow-200 dark:border-yellow-700 rounded-lg text-sm text-yellow-900 dark:text-yellow-100">
+          <div className="mb-2">
+            💡 <strong>{t.rolePromptExample}</strong> {roleUseCase}
+          </div>
+          <button
+            onClick={() => setInstruction(roleUseCase)}
+            className="text-xs px-3 py-1 rounded-lg bg-blue-100 dark:bg-blue-600 text-blue-800 dark:text-white border border-blue-300 dark:border-blue-500 hover:bg-blue-200 dark:hover:bg-blue-500 transition"
+          >
+            ✨ {t.useExample}
+          </button>
+        </div>
+      )}
 
       {tech && (
         <>
