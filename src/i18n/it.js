@@ -23,7 +23,7 @@ const it = {
   // Step: Istruzione + Tecnica
   promptTechnique: "Tecnica di prompting",
   techniqueSuggested: "Tecnica consigliata per il ruolo selezionato",
-  instructionLabel: "Istruzione (basata su",
+  instructionLabel: "Istruzione (basata su: ",
   rolePromptExample: "Prompt di esempio per questo ruolo:",
   selectTechnique: "Scegli la tecnica più adatta:",
   techniqueGuide: "Suggerimento basato sul ruolo selezionato",

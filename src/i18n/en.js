@@ -28,7 +28,7 @@ const en = {
   // Step: Instruction
   promptTechnique: "Prompting technique",
   techniqueSuggested: "Suggested technique for selected role",
-  instructionLabel: "Instruction (based on",
+  instructionLabel: "Instruction (based on ",
   rolePromptExample: "Example prompt for this role:",
   selectTechnique: "Select the most suitable technique:",
   techniqueGuide: "Tip based on the selected role",
