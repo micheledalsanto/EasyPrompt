@@ -78,7 +78,7 @@ function Layout({ currentStep, children, darkMode, setDarkMode }) {
           </a>{" "}
           ·{" "}
           <a
-            href="https://github.com/micheledalsanto"
+            href="https://github.com/micheledalsanto/EasyPrompt"
             target="_blank"
             rel="noopener noreferrer"
             className="underline hover:text-blue-600 dark:hover:text-blue-400"
